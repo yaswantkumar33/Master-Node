@@ -1,0 +1,4 @@
+./complete-node-bootcamp-master/
+node_modules/
+dist/
+secret-folder/
