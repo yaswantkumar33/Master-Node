@@ -1,1 +1,0 @@
-console.log("day 4 html templating")
