@@ -1,6 +1,7 @@
 let http = require("http");
 let fs = require("fs");
 let url = require("url");
+let slugify = require('slugify');
 let replaceTemplate=require('./modules/repalceTemplate')
 
 const product_data = fs.readFileSync("./dev-data/data.json", "utf-8");
@@ -9,7 +10,7 @@ const templateProduct = fs.readFileSync(`${__dirname}/templates/template-product
 const templateCard = fs.readFileSync(`${__dirname}/templates/template-card.html`, 'utf-8');
 const data = JSON.parse(product_data);
 // console.log(data);
-
+console.log(slugify("WE Will Win dont give up",{lower:true}))
 
 
 const server = http.createServer((req, res) => {
