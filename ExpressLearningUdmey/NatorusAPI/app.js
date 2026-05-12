@@ -48,6 +48,32 @@ app.post("/api/v1/tours", (req, res) => {
         })
     })
 })
+
+
+// to make the paramter optional use "?" at the end 
+// app.post("/api/v1/tours/:id/:name/:age?", (req, res) => {
+app.post("/api/v1/tours/:id", (req, res) => {
+
+    let tourId = req.params.id;
+    let tour = tours.find((elem) => elem.id === Number(tourId));
+
+    // hadneling the invalid id 
+    if (!tour) {
+        return res.status(404).json({
+            status: "Failed to fetch the Tour",
+            message: "Invalid id"
+        })
+    }
+
+    console.log(req.params);
+    res.status(200).json({
+        status: "Sucess",
+        data: {
+            params: tour
+        }
+    })
+
+})
 app.listen(port, () => {
     console.log(`Server Listening At ${port}`)
 })
