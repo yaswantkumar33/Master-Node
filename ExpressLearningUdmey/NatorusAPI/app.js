@@ -18,6 +18,7 @@ app.use((req, res, next) => {
 
 app.use(morgan('dev'));
 
+// routes 
 const userRouter = require('./routes/userRoutes');
 const tourRouter = require('./routes/tourRoutes');
 

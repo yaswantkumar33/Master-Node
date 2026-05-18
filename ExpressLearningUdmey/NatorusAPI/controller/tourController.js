@@ -1,6 +1,19 @@
 const fs = require('fs');
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`));
 
+
+exports.checkId = (req, res, next, val) => {
+
+    let tour = tours.find((elem) => elem.id === Number(val));
+
+    if (!tour) {
+        return res.status(404).json({
+            status: "Failed to fetch the Tour",
+            message: "Invalid id"
+        })
+    }
+
+}
 exports.getAllTours = (req, res) => {
 
     res.status(200).json({
@@ -13,7 +26,6 @@ exports.getAllTours = (req, res) => {
 }
 exports.createTour = (req, res) => {
 
-    // console.log(req.body);
     const NewId = tours[tours.length - 1].id + 1;
 
     let newTour = Object.assign({ id: NewId }, req.body);
@@ -32,17 +44,7 @@ exports.getTour = (req, res) => {
 
     let tourId = req.params.id;
     let tour = tours.find((elem) => elem.id === Number(tourId));
-    console.log(req.requestTime);
 
-    // hadneling the invalid id 
-    if (!tour) {
-        return res.status(404).json({
-            status: "Failed to fetch the Tour",
-            message: "Invalid id"
-        })
-    }
-
-    console.log(req.params);
     res.status(200).json({
         status: "Sucess",
         requestTime: req.requestTime,
@@ -57,14 +59,6 @@ exports.updateTours = (req, res) => {
 
     let tour = tours.find((elem) => elem.id === Number(tourId));
 
-    // hadneling the invalid id 
-    if (!tour) {
-        return res.status(404).json({
-            status: "Failed to fetch the Tour",
-            message: "Invalid id"
-        })
-    }
-
     res.status(200).json({
         status: "Success",
         data: {
@@ -76,14 +70,6 @@ exports.updateTours = (req, res) => {
 exports.deleteTour = (req, res) => {
     let tourId = req.params.id;
     let tour = tours.find((elem) => elem.id === Number(tourId));
-
-    // hadneling the invalid id 
-    if (!tour) {
-        return res.status(404).json({
-            status: "Failed to fetch the Tour",
-            message: "Invalid id"
-        })
-    }
 
     res.status(200).json({
         status: "Success",
