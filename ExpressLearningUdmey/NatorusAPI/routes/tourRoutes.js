@@ -8,11 +8,11 @@ router.param('id', tourController.checkId);
 router
     .route('/')
     .get(tourController.getAllTours)
-    .post(tourController.createTour);
+    .post(tourController.checkbody, tourController.createTour);
 router
     .route('/:id')
     .get(tourController.getTour)
-    .patch(tourController.updateTours)
+    .patch(tourController.checkbody, tourController.updateTours)
     .delete(tourController.deleteTour);
 
 module.exports = router;

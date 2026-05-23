@@ -2,6 +2,16 @@ const fs = require('fs');
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`));
 
 
+exports.checkbody = (req, res, next) => {
+    let name = req.body.name;
+    if (!name) {
+        return res.status(400).json({
+            status: "Name is not there in the body",
+            message: "Invalid id"
+        })
+    }
+    next();
+}
 exports.checkId = (req, res, next, val) => {
 
     let tour = tours.find((elem) => elem.id === Number(val));
@@ -12,6 +22,8 @@ exports.checkId = (req, res, next, val) => {
             message: "Invalid id"
         })
     }
+
+    next();
 
 }
 exports.getAllTours = (req, res) => {
