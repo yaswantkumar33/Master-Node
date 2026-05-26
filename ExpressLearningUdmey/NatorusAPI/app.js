@@ -11,7 +11,6 @@ app.use(express.static(`${__dirname}/public`));
 
 if (process.env.YENVIRONMENT == "development") {
     app.use(morgan('dev'));
-    console.log("morgan called");
 }
 
 
