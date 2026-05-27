@@ -18,7 +18,7 @@ app.use(express.json());
 // build schema for the zod validation 
 const Reqschema = z.object({
     username: z.string(),
-    email: z.email(),
+    email: z.string().email(),
     age: z.number().int().positive()
 })
 
@@ -29,8 +29,11 @@ app.post('/api/test', (req, res) => {
     console.log(result);
     if (!result.success) {
         return res.status(400).json({
-            messge: result.error.issues[0].message,
-            error: result.error.issues[0]
+            messge: fail,
+            errors: result.error.issues.map(issue => ({
+                field: issue.path[0],
+                message: issue.message
+            }))
         })
     }
 

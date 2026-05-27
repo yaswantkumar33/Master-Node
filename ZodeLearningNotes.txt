@@ -1,0 +1,14 @@
+what is zode ? 
+
+-Zode is validation library, which is made keeping typescript in mind but it also works for the js 
+-in nodejs or express it is standard in industry to bring or fill the gap between untyped data in runtime like json body, query params and your strongly       typed busniess logic 
+
+=>Main explainition:
+zod is designed to eliminate the redundecny of defining your interfaces and thn manually validate the data when incoming req is recevied to match the interfaces 
+with zod your can define the schema once and it defines the typescript types and performes a runtime validation simultaneously
+
+why zood ? 
+=> zero dependicenes : light weight
+=> with zod we can get a clear and declaractive way of define "what your data should look like  and it gives a clear error if client send a garbage.
+
+
