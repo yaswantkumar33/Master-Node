@@ -9,21 +9,31 @@
       mongoDb CRUD
     </H1>
 
-    <h3>Create Book</h3>
-    <form action="/store" method="post">
-      <input type="text" name="title" />
-      <input type="text" name="author" />
-      <input type="submit" name="submit" value="Submit" />
-    </form>
+    {{#if edit_id}}
+      <h3>Edit Book</h3>
+      <form action="/update/{{edit_id}}" method="post">
+        <input type="text" name="title" value="{{edit_book.title}}" />
+        <input type="text" name="author" value="{{edit_book.author}}" />
+        <input type="submit" name="submit" value="Submit" />
+      </form>
+    {{else}}
+      <h3>Create Book</h3>
+      <form action="/store" method="post">
+        <input type="text" name="title" />
+        <input type="text" name="author" />
+        <input type="submit" name="submit" value="Submit" />
+      </form>
+    {{/if}}
 
     <h4>{{message}}</h4>
 
     <ul>
-      {{#each employees}}
+      {{#each books}}
         <li>
           {{this.title}}
           -
           {{this.author}}
+          <a href="/edit/{{this._id}}">Edit</a>
         </li>
       {{/each}}
     </ul>

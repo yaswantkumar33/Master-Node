@@ -4,6 +4,7 @@ const app = express();
 const body_parser = require("body-parser");
 const express_handlebars = require("express-handlebars");
 const dbo = require("./db");
+const ObjectId = dbo.ObjectId;
 
 app.use(body_parser.urlencoded({ extended: true }));
 app.engine(
@@ -24,7 +25,7 @@ app.get("/", async (req, res) => {
     let database = await dbo.getDatabase();
     const collection = database.collection('books');
     const cursor = collection.find({})
-    const employees = await cursor.toArray();
+    const books = await cursor.toArray();
     let message = "";
 
     switch (req.query.status) {
@@ -34,9 +35,9 @@ app.get("/", async (req, res) => {
         default:
             message = "";
     }
-    console.log(req.query.status);
 
-    res.render("main", { message, employees });
+
+    res.render("main", { message, books });
 });
 
 app.post("/store", async (req, res) => {
@@ -48,6 +49,30 @@ app.post("/store", async (req, res) => {
     await collection.insertOne(newbook);
 
     return res.redirect("/?status=1");
+
+})
+
+app.get('/edit/:id', async (req, res) => {
+
+    let database = await dbo.getDatabase();
+    const collection = database.collection('books');
+    const edit_book = await collection.findOne({ "_id": new ObjectId(req.params.id) });
+    console.log("Edit received", edit_book, req.params.id);
+    let edit_id = req.params.id;
+    res.render("main", { edit_book, edit_id });
+
+
+})
+
+app.post("/update/:id", (req, res) => {
+
+    const obj_id = req.params.id;
+    const book_obj  = {
+        title:req.body.title,
+        title:req.body.author,
+    };
+    console.log(body_obj, obj_id);
+
 
 })
 app.listen(8000, () => {
