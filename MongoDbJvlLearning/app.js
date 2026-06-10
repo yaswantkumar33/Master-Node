@@ -32,12 +32,14 @@ app.get("/", async (req, res) => {
         case "1":
             message = "Inserted successfully";
             break;
+        case "2":
+            message = "Updated successfully";
+            break;
         default:
             message = "";
     }
-
-
     res.render("main", { message, books });
+
 });
 
 app.post("/store", async (req, res) => {
@@ -57,22 +59,31 @@ app.get('/edit/:id', async (req, res) => {
     let database = await dbo.getDatabase();
     const collection = database.collection('books');
     const edit_book = await collection.findOne({ "_id": new ObjectId(req.params.id) });
-    console.log("Edit received", edit_book, req.params.id);
+    // console.log("Edit received", edit_book, req.params.id);
     let edit_id = req.params.id;
     res.render("main", { edit_book, edit_id });
 
 
 })
 
-app.post("/update/:id", (req, res) => {
+app.post("/update/:id", async (req, res) => {
+
+    let database = await dbo.getDatabase();
+    const collection = database.collection('books');
 
     const obj_id = req.params.id;
-    const book_obj  = {
-        title:req.body.title,
-        title:req.body.author,
-    };
-    console.log(body_obj, obj_id);
 
+    const book_obj = {
+        title: req.body.title,
+        author: req.body.author,
+    };
+
+    let aabb = await collection.updateOne({ _id: new ObjectId(obj_id) }, { $set: book_obj })
+    // const book = await collection.findOne({ "_id": new ObjectId(req.params.id) });
+
+
+    console.log(aabb);
+    return res.redirect("/?status=2");
 
 })
 app.listen(8000, () => {
