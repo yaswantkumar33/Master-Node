@@ -35,6 +35,9 @@ app.get("/", async (req, res) => {
         case "2":
             message = "Updated successfully";
             break;
+        case "3":
+            message = "Deleted Sucessfully";
+            break
         default:
             message = "";
     }
@@ -58,9 +61,10 @@ app.get('/edit/:id', async (req, res) => {
 
     let database = await dbo.getDatabase();
     const collection = database.collection('books');
+
     const edit_book = await collection.findOne({ "_id": new ObjectId(req.params.id) });
-    // console.log("Edit received", edit_book, req.params.id);
     let edit_id = req.params.id;
+
     res.render("main", { edit_book, edit_id });
 
 
@@ -78,12 +82,22 @@ app.post("/update/:id", async (req, res) => {
         author: req.body.author,
     };
 
-    let aabb = await collection.updateOne({ _id: new ObjectId(obj_id) }, { $set: book_obj })
-    // const book = await collection.findOne({ "_id": new ObjectId(req.params.id) });
+    await collection.updateOne({ _id: new ObjectId(obj_id) }, { $set: book_obj })
 
-
-    console.log(aabb);
     return res.redirect("/?status=2");
+
+})
+
+app.get("/delete/:id", async (req, res) => {
+
+    let database = await dbo.getDatabase();
+    const collection = database.collection('books');
+
+    let obj_id = req.params.id;
+
+    await collection.deleteOne({ _id: new ObjectId(obj_id) })
+
+    return res.redirect("/?status=3");
 
 })
 app.listen(8000, () => {
