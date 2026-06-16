@@ -21,7 +21,7 @@
 const mongoose = require('mongoose');
 
 async function getDatabase() {
-    mongoose.connect('mongodb://127.0.0.1:27017/library').then(() => {
+    mongoose.connect('mongodb+srv://articstark1512_db_user:AwJiqf6zLsFUUQTd@mogodbwithyash.52qw2an.mongodb.net/?appName=mogodbwithYash').then(() => {
         console.log("Database connected")
     }).catch(() => {
         console.log("Connection failed to database")

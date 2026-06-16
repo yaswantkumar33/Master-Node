@@ -19,7 +19,9 @@
     {{else}}
       <h3>Create Book</h3>
       <form action="/store" method="post">
+        <label for="title">Book Title</label>
         <input type="text" name="title" />
+        <label for="author">Book Author</label>
         <input type="text" name="author" />
         <input type="submit" name="submit" value="Submit" />
       </form>

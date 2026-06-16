@@ -34,8 +34,6 @@ app.get("/", async (req, res) => {
     let books = await Book.find().lean();
     // this lean() is not here means it will show issue only in the handlebars templatting engine 
 
-    console.log(books);
-
     let message = "";
 
     switch (req.query.status) {
@@ -77,8 +75,6 @@ app.get('/edit/:id', async (req, res) => {
     // const edit_book = await collection.findOne({ "_id": new ObjectId(req.params.id) });
     let edit_id = req.params.id;
     let edit_book = await Book.findOne({ _id: edit_id }).lean();
-    console.log(edit_book);
-
 
     res.render("main", { edit_book, edit_id });
 
