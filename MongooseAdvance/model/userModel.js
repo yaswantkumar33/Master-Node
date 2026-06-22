@@ -43,6 +43,10 @@ userSchema.statics.findByName = function () {
 userSchema.query.findName = function (uname) {
     return this.where({ name: uname })
 }
+
+userSchema.virtual("namedEmail").get(function () {
+    return `${this.name} is the named email name`
+})
 const userModel = mongoose.model("user", userSchema);
 
 
