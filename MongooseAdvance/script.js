@@ -60,10 +60,10 @@ async function runsave() {
 
         // there is another special methof populate, this brings the doc that is connected to other collection(relationship) 
         // const user = await User.where('age').eq("25").populate('bestFriend');
-        const user = await User.findByName("Yash");
+        const user = await User.findByName().findName('Yash');
         // user.loggingname();
 
-        // console.log(user);
+        console.log(user);
 
 
     } catch (e) {

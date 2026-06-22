@@ -36,10 +36,12 @@ userSchema.methods.loggingname = function () {
     console.log("Hi the name of the user is " + this.name);
 }
 
-userSchema.statics.findByName = function (name) {
+userSchema.statics.findByName = function () {
+    return this.find()
+}
 
-    return this.where({ name: name })
-
+userSchema.query.findName = function (uname) {
+    return this.where({ name: uname })
 }
 const userModel = mongoose.model("user", userSchema);
 
