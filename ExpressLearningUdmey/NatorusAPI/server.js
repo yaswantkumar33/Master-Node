@@ -13,25 +13,15 @@ mongoose.connect(DB).then(con => {
     console.log('Database connection sucessful');
 });
 
+// const testTour = new Tour({
+//     name: "The Forest Hiker",
+//     rating: 4.6,
+//     price: 3456
+// })
 
-const tourSchema = new mongoose.Schema({
-    name: { type: String, require: [true, "A tour must have name"], unique: true },
-    rating: { type: Number, default: 4.0 },
-    price: { type: Number, require: [true, "A tour must have price"] }
-})
-
-const Tour = mongoose.model('Tour', tourSchema);
-
-
-const testTour = new Tour({
-    name: "The Forest Hiker",
-    rating: 4.6,
-    price: 3456
-})
-
-testTour.save().then(() => {
-    console.log("Created Sucessfully!");
-});
+// testTour.save().then(() => {
+//     console.log("Created Sucessfully!");
+// });
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

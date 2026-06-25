@@ -1,93 +1,108 @@
 const fs = require('fs');
-const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`));
+const Tour = require('./../models/tourModel')
+// const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`));
 
 
-exports.checkbody = (req, res, next) => {
-    let name = req.body.name;
-    if (!name) {
-        return res.status(400).json({
-            status: "Name is not there in the body",
-            message: "Invalid id"
-        })
-    }
-    next();
-}
-exports.checkId = (req, res, next, val) => {
+// exports.checkbody = (req, res, next) => {
+//     let name = req.body.name;
+//     if (!name) {
+//         return res.status(400).json({
+//             status: "Name is not there in the body",
+//             message: "Invalid id"
+//         })
+//     }
+//     next();
+// }
+// exports.checkId = (req, res, next, val) => {
 
-    let tour = tours.find((elem) => elem.id === Number(val));
+//     let tour = tours.find((elem) => elem.id === Number(val));
 
-    if (!tour) {
-        return res.status(404).json({
-            status: "Failed to fetch the Tour",
-            message: "Invalid id"
-        })
-    }
+//     if (!tour) {
+//         return res.status(404).json({
+//             status: "Failed to fetch the Tour",
+//             message: "Invalid id"
+//         })
+//     }
 
-    next();
+//     next();
 
-}
-exports.getAllTours = (req, res) => {
+// }
+// exports.getAllTours = (req, res) => {
 
-    res.status(200).json({
-        "status": "Sucess",
-        "Results": tours.length,
-        "data": {
-            tours
-        }
-    })
-}
-exports.createTour = (req, res) => {
+//     res.status(200).json({
+//         "status": "Sucess",
+//         "Results": tours.length,
+//         "data": {
+//             tours
+//         }
+//     })
+// }
+// exports.createTour = (req, res) => {
 
-    const NewId = tours[tours.length - 1].id + 1;
+//     const NewId = tours[tours.length - 1].id + 1;
 
-    let newTour = Object.assign({ id: NewId }, req.body);
+//     let newTour = Object.assign({ id: NewId }, req.body);
 
-    tours.push(newTour);
-    fs.writeFile(`${__dirname}/dev-data/data/tours-simple.json`, JSON.stringify(tours), err => {
-        res.status(201).json({
-            status: "Success",
-            data: {
-                tours: newTour
-            }
-        })
-    })
-}
-exports.getTour = (req, res) => {
+//     tours.push(newTour);
+//     fs.writeFile(`${__dirname}/dev-data/data/tours-simple.json`, JSON.stringify(tours), err => {
+//         res.status(201).json({
+//             status: "Success",
+//             data: {
+//                 tours: newTour
+//             }
+//         })
+//     })
+// }
+// exports.getTour = (req, res) => {
 
-    let tourId = req.params.id;
-    let tour = tours.find((elem) => elem.id === Number(tourId));
+//     let tourId = req.params.id;
+//     let tour = tours.find((elem) => elem.id === Number(tourId));
 
-    res.status(200).json({
-        status: "Sucess",
-        requestTime: req.requestTime,
+//     res.status(200).json({
+//         status: "Sucess",
+//         requestTime: req.requestTime,
+//         data: {
+//             params: tour
+//         }
+//     })
+
+// }
+// exports.updateTours = (req, res) => {
+//     let tourId = req.params.id;
+
+//     let tour = tours.find((elem) => elem.id === Number(tourId));
+
+//     res.status(200).json({
+//         status: "Success",
+//         data: {
+//             message: "Id received form the patch method!"
+//         }
+//     })
+
+// }
+// exports.deleteTour = (req, res) => {
+//     let tourId = req.params.id;
+//     let tour = tours.find((elem) => elem.id === Number(tourId));
+
+//     res.status(200).json({
+//         status: "Success",
+//         data: {
+//             message: "Id received form the delete method!"
+//         }
+//     })
+
+// }
+
+
+exports.getAllTours = async (res, req) => {
+    console.log("get recevied in controlller!")
+    res.status(400).json({
+        message: "The get tours get metod is hit sucessfully",
         data: {
-            params: tour
+            tours: "<tours>"
         }
     })
-
 }
-exports.updateTours = (req, res) => {
-    let tourId = req.params.id;
 
-    let tour = tours.find((elem) => elem.id === Number(tourId));
 
-    res.status(200).json({
-        status: "Success",
-        data: {
-            message: "Id received form the patch method!"
-        }
-    })
-
-}
-exports.deleteTour = (req, res) => {
-    let tourId = req.params.id;
-    let tour = tours.find((elem) => elem.id === Number(tourId));
-
-    res.status(200).json({
-        status: "Success",
-        data: {
-            message: "Id received form the delete method!"
-        }
-    })
-
-}
+// using mongodb nad mongoose--------------------------------------------------- 
