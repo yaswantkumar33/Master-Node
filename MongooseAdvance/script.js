@@ -62,6 +62,8 @@ async function runsave() {
         // const user = await User.where('age').eq("25").populate('bestFriend');
         // const user = await User.findByName().findName('Yash');
         const user = await User.findById('6a32c3dcf83b95696cd55697');
+        user.name = "Yaswant Software Engineer";
+        await user.save();
         // user.loggingname();
 
         console.log(user);
