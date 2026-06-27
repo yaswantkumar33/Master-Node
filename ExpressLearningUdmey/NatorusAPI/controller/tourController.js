@@ -92,16 +92,7 @@ const Tour = require('./../models/tourModel');
 
 // }
 
-exports.getAllTours = async (res, req) => {
-  console.log('get recevied in controlller!');
-  res.status(400).json({
-    message: 'The get tours get metod is hit sucessfully',
-    data: {
-      tours: '<tours>',
-    },
-  });
-};
-
+// using mongodb nad mongoose---------------------------------------------------
 // create tour
 exports.createTouer = async (req, res) => {
   console.log('Create Tour Called');
@@ -129,4 +120,60 @@ exports.createTouer = async (req, res) => {
   }
 };
 
-// using mongodb nad mongoose---------------------------------------------------
+// get all tour from the database
+exports.getAllTour = async (req, res) => {
+  try {
+    const allTours = await Tour.find();
+    console.log(allTours);
+
+    res.status(200).json({
+      message: 'Get all tours sucessfull',
+      data: allTours,
+    });
+  } catch (err) {
+    res.status(400).json({
+      message: 'Something went wrong on fetching data from the db!',
+      error: err.message,
+    });
+  }
+};
+
+// get tour deatils
+exports.getTour = async (req, res) => {
+  try {
+    const tourDetails = await Tour.findById(req.params.id);
+    // const tourDetails = await Tour.findOne(req.params.id);
+    // const tourDetails = await Tour.find({ _id: req.params.id });
+    console.log(tourDetails);
+
+    res.status(200).json({
+      message: 'data fetched sucessfully',
+      data: tourDetails,
+    });
+  } catch (err) {
+    res.status(400).json({
+      mesage: 'Somehting went wrong while fetching data',
+      error: err.message,
+    });
+  }
+};
+
+// update tour by id
+exports.updateTour = async (req, res) => {
+  try {
+    const updatedTour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    res.status(200).json({
+      message: 'updtaed sucessfully',
+      data: updatedTour,
+    });
+  } catch (err) {
+    res.status(400).json({
+      message: 'Something went wrong while updating the document',
+      error: err.mesage,
+    });
+  }
+};

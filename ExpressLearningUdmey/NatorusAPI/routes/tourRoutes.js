@@ -16,6 +16,13 @@ const tourController = require('./../controller/tourController');
 
 // mogdb and mongoose ------------------------------------->
 
-router.route('/').post(tourController.createTouer);
+router
+  .route('/')
+  .post(tourController.createTouer)
+  .get(tourController.getAllTour);
+router
+  .route('/:id')
+  .get(tourController.getTour)
+  .patch(tourController.updateTour);
 
 module.exports = router;
