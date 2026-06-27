@@ -1,7 +1,6 @@
 const fs = require('fs');
-const Tour = require('./../models/tourModel')
+const Tour = require('./../models/tourModel');
 // const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`));
-
 
 // exports.checkbody = (req, res, next) => {
 //     let name = req.body.name;
@@ -93,16 +92,41 @@ const Tour = require('./../models/tourModel')
 
 // }
 
-
 exports.getAllTours = async (res, req) => {
-    console.log("get recevied in controlller!")
+  console.log('get recevied in controlller!');
+  res.status(400).json({
+    message: 'The get tours get metod is hit sucessfully',
+    data: {
+      tours: '<tours>',
+    },
+  });
+};
+
+// create tour
+exports.createTouer = async (req, res) => {
+  console.log('Create Tour Called');
+
+  try {
+    // One way
+    // const newTour = new Tour({ name: "Himalyan Hunters", price: 23444 })
+    // newTour.save().then(()=>{
+    //     console.log("New Tour created");
+    // })
+    // Another way
+    const newTour = await Tour.create(req.body);
+    // console.log(req.body);
+
+    res.status(200).json({
+      message: 'Tour created successfully',
+      data: newTour,
+    });
+  } catch (err) {
+    console.log(`${err.message}`);
     res.status(400).json({
-        message: "The get tours get metod is hit sucessfully",
-        data: {
-            tours: "<tours>"
-        }
-    })
-}
+      message: 'Oops Something went wrong in the creation process',
+      error: err.message,
+    });
+  }
+};
 
-
-// using mongodb nad mongoose--------------------------------------------------- 
+// using mongodb nad mongoose---------------------------------------------------

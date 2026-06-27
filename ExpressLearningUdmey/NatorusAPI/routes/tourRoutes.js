@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const tourController = require('./../controller/tourController');
 
-
 // router.param('id', tourController.checkId);
 
 // router
@@ -17,6 +16,6 @@ const tourController = require('./../controller/tourController');
 
 // mogdb and mongoose ------------------------------------->
 
-router.route('/').get(tourController.getAllTours)
+router.route('/').post(tourController.createTouer);
 
 module.exports = router;
