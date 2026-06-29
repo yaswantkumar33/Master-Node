@@ -177,3 +177,22 @@ exports.updateTour = async (req, res) => {
     });
   }
 };
+
+// delete tour by id
+exports.deleteTour = async (req, res) => {
+  try {
+    await Tour.findByIdAndDelete(req.params.id, req.body, {
+      new: true,
+    }).then((data) => {
+      res.status(204).json({
+        message: 'Deleted Sucessfully',
+        data: data._id,
+      });
+    });
+  } catch (err) {
+    res.status(400).json({
+      message: 'Somthing went wrong while deleting',
+      error: err.mesage,
+    });
+  }
+};
