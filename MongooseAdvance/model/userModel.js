@@ -8,7 +8,10 @@ const addressSchema = new mongoose.Schema({
 const userSchema = new mongoose.Schema({
     name: String,
     age: {
-        type: Number, min: 10, max: 20, validate: {
+        type: Number,
+        min: 10,
+        max: 30,
+        validate: {
             validator: v => v % 2 == 0,
             message: props => `${props.value} is not a even number`
         }
@@ -36,11 +39,30 @@ userSchema.methods.loggingname = function () {
     console.log("Hi the name of the user is " + this.name);
 }
 
-userSchema.statics.findByName = function (name) {
-
-    return this.where({ name: name })
-
+userSchema.statics.findByName = function () {
+    return this.find()
 }
+
+userSchema.query.findName = function (uname) {
+    return this.where({ name: uname })
+}
+
+userSchema.virtual("namedEmail").get(function () {
+    return `${this.name} is the named email name`
+})
+// Schema Middleware 
+userSchema.pre('save', function (next) {
+
+    this.name = `Mr.${this.name}`;
+    next;
+
+})
+
+// userSchema.post('save', function (doc, next) {
+//     doc.name = `${doc.name} Modified!`;
+//     next();
+// })
+
 const userModel = mongoose.model("user", userSchema);
 
 

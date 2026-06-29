@@ -28,5 +28,6 @@ async function getDatabase() {
     })
 
 }
+db.tours.find({ $or: [{ price: { $gte: 500 } }, { review: { $gt: 4.2 } }] })
 
 module.exports = { getDatabase };

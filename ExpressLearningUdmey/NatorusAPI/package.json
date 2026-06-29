@@ -4,7 +4,7 @@
   "description": "Leaning Express And mongo DB",
   "main": "app.js",
   "scripts": {
-    "start:dev": "nodemon server.js",
+    "start": "nodemon server.js",
     "start:prod": "cross-env YENVIRONMENT=production nodemon server.js"
   },
   "author": "Yaswant Kumar S",
@@ -12,6 +12,7 @@
   "dependencies": {
     "dotenv": "^17.4.2",
     "express": "^4.22.1",
+    "mongoose": "^9.7.2",
     "morgan": "^1.10.1",
     "nodemon": "^3.1.14"
   },
