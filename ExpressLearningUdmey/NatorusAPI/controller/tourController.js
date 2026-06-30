@@ -134,11 +134,11 @@ exports.getAllTour = async (req, res) => {
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
-    // 2.) sort filter
+    // the main query
     let mainquery = Tour.find(JSON.parse(queryStr));
 
-
-    // sort condition 
+    // 2.) sort filter
+    // sort condition
     if (req.query.sort) {
       // to do a descing order add "-" to the value like '-price'
       // to make multiple level of sort we can do like this
@@ -147,6 +147,15 @@ exports.getAllTour = async (req, res) => {
     } else {
       mainquery = mainquery.sort('-createdAt');
     }
+    // 3.) limiting fields
+
+    if (req.query.fields) {
+      let fields = req.query.fields.split(',').join(' ');
+      mainquery.select(fields);
+    } else {
+      mainquery.select('-__v');
+    }
+
     const allTours = await mainquery;
 
     res.status(200).json({
