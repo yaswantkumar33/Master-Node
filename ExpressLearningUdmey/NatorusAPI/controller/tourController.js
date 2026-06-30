@@ -122,9 +122,41 @@ exports.createTouer = async (req, res) => {
 
 // get all tour from the database
 exports.getAllTour = async (req, res) => {
+  // GET /api/v1/tours?duration[gte]=5&difficulty=easy&sort=desc&limit=10&page=3&fields=test => {duration: { gte: '5' },difficulty: 'easy',sort: 'desc',limit: '10',page: '3',fields: 'test'}
+
   try {
-    const allTours = await Tour.find();
-    console.log(allTours);
+    // 1a.) filtering
+    const queryObj = { ...req.query };
+    const excludedQueryObj = ['page', 'limit', 'sort', 'fields'];
+    excludedQueryObj.forEach((ele) => delete queryObj[ele]);
+
+    // 1b.)advance filterting
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+
+    // the main query
+    let mainquery = Tour.find(JSON.parse(queryStr));
+
+    // 2.) sort filter
+    // sort condition
+    if (req.query.sort) {
+      // to do a descing order add "-" to the value like '-price'
+      // to make multiple level of sort we can do like this
+      const sortby = req.query.sort.split(',').join(' ');
+      mainquery = mainquery.sort(sortby);
+    } else {
+      mainquery = mainquery.sort('-createdAt');
+    }
+    // 3.) limiting fields
+
+    if (req.query.fields) {
+      let fields = req.query.fields.split(',').join(' ');
+      mainquery.select(fields);
+    } else {
+      mainquery.select('-__v');
+    }
+
+    const allTours = await mainquery;
 
     res.status(200).json({
       message: 'Get all tours sucessfull',
@@ -144,7 +176,6 @@ exports.getTour = async (req, res) => {
     const tourDetails = await Tour.findById(req.params.id);
     // const tourDetails = await Tour.findOne(req.params.id);
     // const tourDetails = await Tour.find({ _id: req.params.id });
-    console.log(tourDetails);
 
     res.status(200).json({
       message: 'data fetched sucessfully',
