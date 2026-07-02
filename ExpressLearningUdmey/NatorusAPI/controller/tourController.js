@@ -153,6 +153,7 @@ exports.getAllTour = async (req, res) => {
       let fields = req.query.fields.split(',').join(' ');
       mainquery.select(fields);
     } else {
+      // here in select if we use "-" means it means except that field
       mainquery.select('-__v');
     }
 
