@@ -157,6 +157,20 @@ exports.getAllTour = async (req, res) => {
       mainquery.select('-__v');
     }
 
+    // 4.)Pagination
+
+    const limit = req.query.limit * 1 || 100;
+    const page = req.query.page * 1 || 1;
+
+    // skip
+    const skip = (page - 1) * limit || 0;
+    mainquery.skip(skip).limit(limit);
+
+    if (req.query.page) {
+      const numTours = await Tour.countDocuments();
+      if (skip > numTours) throw new Error('The page doses not exist!!!');
+    }
+
     const allTours = await mainquery;
 
     res.status(200).json({
@@ -169,6 +183,16 @@ exports.getAllTour = async (req, res) => {
       error: err.message,
     });
   }
+};
+
+// middleware for the 5 best tours
+
+exports.alias = (req, res, next) => {
+  console.log('Middleare calleed ! for the top tours!!');
+  req.query.limit = 3;
+  req.query.sort  = "ratingsAverage,price"
+  req.query.fields ="name,price,ratingsAverage,summary"
+  next();
 };
 
 // get tour deatils

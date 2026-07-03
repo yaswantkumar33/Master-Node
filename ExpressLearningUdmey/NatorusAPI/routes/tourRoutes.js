@@ -16,6 +16,9 @@ const tourController = require('./../controller/tourController');
 
 // mogdb and mongoose ------------------------------------->
 
+// route to best  5 tours
+
+router.route('/top-5-cheap').get(tourController.alias,tourController.getAllTour);
 router
   .route('/')
   .post(tourController.createTouer)
