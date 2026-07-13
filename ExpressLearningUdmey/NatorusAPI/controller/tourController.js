@@ -23,3 +23,61 @@ exports.getAllTour = async (req, res) => {
     });
   }
 };
+
+//aggregation
+exports.getTourStats = async (req, res) => {
+  try {
+    const stats = await Tour.aggregate([
+      { $match: { ratingsAverage: { $gte: 4.5 } } },
+      {
+        $group: {
+          _id: { $toUpper: '$difficulty' },
+          numTours: { $sum: 1 },
+          numRatings: { $sum: '$ratingsQuantity' },
+          avgRatings: { $avg: '$ratingsAverage' },
+          avgPrice: { $avg: '$price' },
+          minPrice: { $min: '$price' },
+          maxPrice: { $max: '$price' },
+        },
+      },
+      {
+        $sort: { avgPrice: 1 },
+      },
+      // {
+      //   $match: { _id: { $ne: 'EASY' } },
+      // },
+    ]);
+    res.status(200).json({
+      message: 'sucess',
+      data: stats,
+    });
+  } catch (e) {
+    res.status(500).json({
+      message: 'Something went wrong!! Oops',
+      error: e.message,
+    });
+  }
+};
+
+exports.getMontlyPlan = async (req, res) => {
+  try {
+    const year = req.params.year * 1;
+
+    const plan = await Tour.aggregate([
+      {
+        $unwind: '$startDates',
+      },
+    ]);
+    res.status(200).json({
+      message: 'sucess',
+      data: { plan },
+    });
+  } catch (e) {
+    res.status(500).json({
+      message: 'oops something went wrong',
+      error: e.message,
+    });
+  }
+};
+
+//closing at 7:08  unwinding and projecting 10:31 pm 13:07:2026

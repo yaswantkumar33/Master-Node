@@ -19,12 +19,16 @@ const tourController = require('./../controller/tourController');
 // route to best  5 tours
 
 // router
-  // .route('/top-5-cheap')
-  // .get(tourController.alias, tourController.getAllTour);
+// .route('/top-5-cheap')
+// .get(tourController.alias, tourController.getAllTour);
 router
   .route('/')
   // .post(tourController.createTouer)
   .get(tourController.getAllTour);
+
+router.route('/get-stats').get(tourController.getTourStats);
+router.route('/get-monthly-plan/:year').get(tourController.getMontlyPlan);
+
 // router
 //   .route('/:id')
 //   .get(tourController.getTour)
