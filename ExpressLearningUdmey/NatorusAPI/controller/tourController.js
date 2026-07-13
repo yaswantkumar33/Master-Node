@@ -58,3 +58,26 @@ exports.getTourStats = async (req, res) => {
     });
   }
 };
+
+exports.getMontlyPlan = async (req, res) => {
+  try {
+    const year = req.params.year * 1;
+
+    const plan = await Tour.aggregate([
+      {
+        $unwind: '$startDates',
+      },
+    ]);
+    res.status(200).json({
+      message: 'sucess',
+      data: { plan },
+    });
+  } catch (e) {
+    res.status(500).json({
+      message: 'oops something went wrong',
+      error: e.message,
+    });
+  }
+};
+
+//closing at 7:08  unwinding and projecting 10:31 pm 13:07:2026

@@ -26,10 +26,8 @@ router
   // .post(tourController.createTouer)
   .get(tourController.getAllTour);
 
-router
-  .route('/get-stats')
-  // .post(tourController.createTouer)
-  .get(tourController.getTourStats);
+router.route('/get-stats').get(tourController.getTourStats);
+router.route('/get-monthly-plan/:year').get(tourController.getMontlyPlan);
 
 // router
 //   .route('/:id')
