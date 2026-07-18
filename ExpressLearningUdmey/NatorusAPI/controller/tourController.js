@@ -24,6 +24,26 @@ exports.getAllTour = async (req, res) => {
   }
 };
 
+exports.createTouer = async (req, res) => {
+  console.log('Create Tour Called');
+
+  try {
+    const newTour = await Tour.create(req.body);
+    // console.log(req.body);
+
+    res.status(200).json({
+      message: 'Tour created successfully',
+      data: newTour,
+    });
+  } catch (err) {
+    console.log(`${err.message}`);
+    res.status(400).json({
+      message: 'Oops Something went wrong in the creation process',
+      error: err.message,
+    });
+  }
+};
+
 //aggregation
 exports.getTourStats = async (req, res) => {
   try {

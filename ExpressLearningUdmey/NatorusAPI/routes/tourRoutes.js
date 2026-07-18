@@ -23,7 +23,7 @@ const tourController = require('./../controller/tourController');
 // .get(tourController.alias, tourController.getAllTour);
 router
   .route('/')
-  // .post(tourController.createTouer)
+  .post(tourController.createTouer)
   .get(tourController.getAllTour);
 
 router.route('/get-stats').get(tourController.getTourStats);
