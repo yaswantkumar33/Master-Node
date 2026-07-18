@@ -84,6 +84,12 @@ tourSchema.pre(/^find/, function () {
   this.start = Date.now();
 });
 
+// aggeration middleware
+
+tourSchema.pre('aggregate', function () {
+  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+});
+
 tourSchema.post(/^find/, function (docs) {
   console.log(`query took ${Date.now() - this.start} Milliseconds to run `);
 });
