@@ -12,6 +12,8 @@ exports.getAllTour = async (req, res) => {
 
     const allTours = await features.query;
 
+    console.log(features.query.getQuery());
+
     res.status(200).json({
       message: 'Get all tours sucessfull',
       data: allTours,
