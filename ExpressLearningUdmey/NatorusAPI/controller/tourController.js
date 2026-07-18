@@ -79,7 +79,7 @@ exports.getMontlyPlan = async (req, res) => {
         $group: {
           _id: { $month: '$startDates' },
           numTourstarts: { $sum: 1 },
-          tours: { $push: '$name' },
+          tours: { $push: '$name' }, //to make a array
         },
       },
       {
